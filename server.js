@@ -73,9 +73,11 @@ if (tienePedido) {
   reparto++;
 } else if (status === "working") {
   esperando++;
+} else {
+  alertas++;
 }
 
-if (esNoCheckIn || estaEnDescanso) {
+if (estaEnDescanso) {
   alertas++;
 }
     return {
