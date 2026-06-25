@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>RICREP-V3 Control Center</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="app-shell" data-version="RICREP-V3">
+
+  <aside class="side">
+    <div class="brand">
+      <h1>RICREP</h1>
+      <span>OPS CENTER</span>
+    </div>
+
+    <nav>
+      <button class="active">Dashboard</button>
+      <button>Ciudades</button>
+      <button>Alertas</button>
+      <button>Riders</button>
+      <button>Reportes</button>
+    </nav>
+
+    <div class="online-box">
+      <span></span>
+      SISTEMA ONLINE
+    </div>
+  </aside>
+
+  <main class="main">
+
+    <header class="hero">
+      <div>
+        <p class="eyebrow">RICREP-V3 · MONITOREO EN TIEMPO REAL</p>
+        <h2>Centro de Control de Flota</h2>
+        <small>Gestión operativa de Bilbao, Barakaldo, Torrelavega, Santander y Costa de Eje</small>
+      </div>
+
+      <button id="silenciar">SILENCIAR ALARMA</button>
+
+      <div class="clock">
+        <strong id="hora">--:--:--</strong>
+        <span id="fecha">--/--/----</span>
+      </div>
+    </header>
+
+    <div id="bannerAlerta" class="banner oculto">
+      ALERTA ACTIVA · Revisar incidencia operativa
+    </div>
+
+    <section class="kpis">
+      <article>
+        <span>Total reparto</span>
+        <strong id="totalReparto">0</strong>
+      </article>
+      <article>
+        <span>Total esperando</span>
+        <strong id="totalEsperando">0</strong>
+      </article>
+      <article>
+        <span>Total alertas</span>
+        <strong id="totalAlertas">0</strong>
+      </article>
+      <article>
+        <span>Ciudades activas</span>
+        <strong>5</strong>
+      </article>
+    </section>
+
+    <section class="workspace">
+      <div id="dashboard" class="city-grid"></div>
+
+      <aside class="right-panel">
+        <h3>Alertas activas</h3>
+        <div id="listaAlertas">
+          <p>Sin alertas críticas.</p>
+        </div>
+      </aside>
+    </section>
+
+  </main>
+
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
