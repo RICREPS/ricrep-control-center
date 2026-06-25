@@ -103,6 +103,54 @@ if (esNoCheckIn || estaEnDescanso) {
   };
 }
 
+app.get("/api/inspector", async (req, res) => {
+  try {
+    const respuestas = await Promise.all(
+      CITY_IDS.map(async (cityId) => {
+        const url = `${FLYCAR_BASE_URL}&city_id=${cityId}`;
+        const respuesta = await axios.get(url);
+        const riders = extraerRiders(respuesta.data);
+
+        return {
+          cityId,
+          totalRiders: riders.length,
+          riders: riders.map((rider) => ({
+            id: rider.employee_id,
+            nombre: rider.name,
+            email: rider.email,
+            telefono: rider.phone_number,
+            status: rider.status,
+            status_metadata: rider.status_metadata,
+
+            ubicacion: rider.current_location || null,
+            vehiculo: rider.vehicle || null,
+            zona: rider.zone || null,
+            starting_point: rider.starting_point || null,
+
+            pedidos: rider.deliveries_info || null,
+            rendimiento: rider.performance || null,
+            wallet: rider.wallet_info || null,
+
+            camposDisponibles: Object.keys(rider),
+            riderCompleto: rider
+          }))
+        };
+      })
+    );
+
+    res.json({
+      actualizado: new Date(),
+      totalCiudades: respuestas.length,
+      respuestas
+    });
+  } catch (error) {
+    res.status(500).json({
+      error: "No se pudo obtener inspector de Flycar",
+      detalle: error.message
+    });
+  }
+});
+
 app.get("/api/status", async (req, res) => {
   try {
     const respuestas = await Promise.all(
