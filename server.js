@@ -58,20 +58,26 @@ function procesarCiudad(nombre, riders) {
     const status = String(rider.status || "").toLowerCase();
     const breakSeconds = rider?.performance?.time_spent?.break_seconds || 0;
     const lateSeconds = rider?.performance?.time_spent?.late_seconds || 0;
+const tienePedido = rider?.deliveries_info?.has_active_deliveries === true;
 
-    const tienePedido = rider?.deliveries_info?.has_active_deliveries === true;
+const esNoCheckIn =
+  !status ||
+  status === "not_checked_in" ||
+  status === "no_check_in" ||
+  status === "offline" ||
+  status === "inactive";
+
+const estaEnDescanso = breakSeconds > 600;
 
 if (tienePedido) {
-    reparto++;
+  reparto++;
 } else if (status === "working") {
-    esperando++;
-} else {
-    alertas++;
+  esperando++;
 }
 
-    if (breakSeconds > 600) alertas++;
-    if (!rider.current_location?.latitude || !rider.current_location?.longitude) alertas++;
-
+if (esNoCheckIn || estaEnDescanso) {
+  alertas++;
+}
     return {
       id: rider.employee_id,
       nombre: rider.name || "RIDER",
