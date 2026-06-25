@@ -2,9 +2,11 @@ console.log("Dashboard conectado al servidor");
 
 let alarmaActiva = false;
 let alarmaSilenciada = false;
+let ultimaFirmaAlertas = "";
+let ciudadesYaAvisadas = [];
 
-const audio = new Audio("https://actions.google.com/sounds/v1/alarms/beep_short.ogg");
-audio.loop = true;
+const audio = new Audio("/alert.mp3");
+audio.loop = false;
 
 async function cargarDatos() {
   try {
@@ -71,22 +73,46 @@ pintarListaAlertas(ciudades);
 }
 
 function revisarAlertas(ciudades) {
-  const totalAlertas = ciudades.reduce((total, ciudad) => total + ciudad.alertas, 0);
+  const ciudadesConAlerta = ciudades.filter(ciudad => ciudad.alertas > 0);
+  const totalAlertas = ciudadesConAlerta.reduce((t, c) => t + c.alertas, 0);
   const banner = document.getElementById("bannerAlerta");
+
+  const nombresActivos = ciudadesConAlerta.map(c => c.nombre);
+
+  ciudadesYaAvisadas = ciudadesYaAvisadas.filter(nombre =>
+    nombresActivos.includes(nombre)
+  );
 
   if (totalAlertas > 0) {
     banner.classList.remove("oculto");
 
-    if (!alarmaSilenciada && !alarmaActiva) {
-      alarmaActiva = true;
-      audio.play().catch(() => {});
-    }
+    ciudadesConAlerta.forEach((ciudad, index) => {
+      if (!alarmaSilenciada && !ciudadesYaAvisadas.includes(ciudad.nombre)) {
+        ciudadesYaAvisadas.push(ciudad.nombre);
+
+        setTimeout(() => {
+          audio.currentTime = 0;
+          audio.play().catch(() => {});
+
+          const voz = new SpeechSynthesisUtterance(`Alerta. ${ciudad.nombre}.`);
+          voz.lang = "es-ES";
+          voz.rate = 0.95;
+          voz.pitch = 1;
+          speechSynthesis.speak(voz);
+        }, index * 1500);
+      }
+    });
+
+    alarmaActiva = true;
   } else {
     banner.classList.add("oculto");
     alarmaSilenciada = false;
     alarmaActiva = false;
+    ciudadesYaAvisadas = [];
+    ultimaFirmaAlertas = "";
     audio.pause();
     audio.currentTime = 0;
+    speechSynthesis.cancel();
   }
 }
 
