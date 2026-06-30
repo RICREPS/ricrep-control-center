@@ -5,6 +5,9 @@ let alarmaSilenciada = false;
 let ultimaFirmaAlertas = "";
 let ciudadesYaAvisadas = [];
 
+let mapa;
+let marcadores = [];
+
 const audio = new Audio("/alert.mp3");
 audio.loop = false;
 
@@ -13,9 +16,10 @@ async function cargarDatos() {
     const respuesta = await fetch("/api/status");
     const data = await respuesta.json();
 
- pintarDashboard(data.ciudades);
+pintarDashboard(data.ciudades);
 revisarAlertas(data.ciudades);
 pintarListaAlertas(data.ciudades);
+actualizarMapa(data.ciudades);
 actualizarUltimaConexion(data.actualizado);
 
   } catch (error) {
@@ -162,6 +166,7 @@ function actualizarUltimaConexion(fecha) {
 document.getElementById("silenciar").addEventListener("click", detenerAlarma);
 
 actualizarReloj();
+inicializarMapa();
 cargarDatos();
 
 setInterval(actualizarReloj, 1000);
@@ -279,4 +284,120 @@ function pintarListaAlertas(ciudades) {
   if (lista.innerHTML.trim() === "") {
     lista.innerHTML = "<p>Sin riders activos en este momento.</p>";
   }
+}function inicializarMapa() {
+  if (!document.getElementById("map")) return;
+
+  mapa = L.map("map").setView([43.263, -2.935], 8);
+
+  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    attribution: "&copy; OpenStreetMap contributors"
+  }).addTo(mapa);
+}
+
+function actualizarMapa(ciudades) {
+  if (!mapa) return;
+
+  marcadores.forEach(marker => marker.remove());
+  marcadores = [];
+
+  const riders = ciudades.flatMap(ciudad =>
+    (ciudad.riders || []).map(rider => ({
+      ...rider,
+      ciudad: ciudad.nombre
+    }))
+  );
+
+  riders.forEach(rider => {
+    if (!rider.lat || !rider.lng) return;
+
+    const marker = L.marker([rider.lat, rider.lng]).addTo(mapa);
+
+    marker.bindPopup(`
+      <strong>ID ${rider.id || "Sin ID"}</strong><br>
+      ${rider.nombre || "Rider"}<br>
+      Ciudad: ${rider.ciudad || "Sin ciudad"}<br>
+      Estado: ${rider.status || "Sin estado"}<br>
+      Vehículo: ${rider.vehiculo || "Sin vehículo"}<br>
+      Pedidos: ${rider.pedidos || 0}
+    `);
+
+    marcadores.push(marker);
+  });
+}function inicializarMapa() {
+  if (!document.getElementById("map")) return;
+
+  mapa = L.map("map").setView([43.263, -2.935], 8);
+
+  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    attribution: "&copy; OpenStreetMap contributors"
+  }).addTo(mapa);
+}
+
+function actualizarMapa(ciudades) {
+  if (!mapa) return;
+
+  marcadores.forEach(marker => mapa.removeLayer(marker));
+  marcadores = [];
+
+  const riders = ciudades.flatMap(ciudad =>
+    (ciudad.riders || []).map(rider => ({
+      ...rider,
+      ciudad: ciudad.nombre
+    }))
+  );
+
+  riders.forEach(rider => {
+    if (!rider.lat || !rider.lng) return;
+
+    const marker = L.marker([rider.lat, rider.lng]).addTo(mapa);
+
+    marker.bindPopup(`
+      <strong>${rider.nombre || "Rider"}</strong><br>
+      ID: ${rider.id || "-"}<br>
+      Ciudad: ${rider.ciudad}<br>
+      Estado: ${rider.status || "-"}<br>
+      Vehículo: ${rider.vehicle || "-"}
+    `);
+
+    marcadores.push(marker);
+  });
+}function inicializarMapa() {
+  if (!document.getElementById("map")) return;
+
+  mapa = L.map("map").setView([43.263, -2.935], 8);
+
+  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    attribution: "&copy; OpenStreetMap contributors"
+  }).addTo(mapa);
+}
+
+function actualizarMapa(ciudades) {
+  if (!mapa) return;
+
+  marcadores.forEach(marker => mapa.removeLayer(marker));
+  marcadores = [];
+
+  const riders = ciudades.flatMap(ciudad =>
+    (ciudad.riders || []).map(rider => ({
+      ...rider,
+      ciudad: ciudad.nombre
+    }))
+  );
+
+  riders.forEach(rider => {
+    if (!rider.lat || !rider.lng) return;
+
+    const marker = L.marker([rider.lat, rider.lng]).addTo(mapa);
+
+    marker.bindPopup(`
+      <strong>${rider.nombre || "Rider"}</strong><br>
+      ID: ${rider.id || "-"}<br>
+      Ciudad: ${rider.ciudad}<br>
+      Estado: ${rider.status || "-"}<br>
+      Vehículo: ${rider.vehiculo || "-"}<br>
+      Pedidos: ${rider.pedidos || 0}
+    `);
+
+    marcadores.push(marker);
+  });
 }
