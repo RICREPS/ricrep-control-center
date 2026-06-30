@@ -140,26 +140,117 @@ cargarDatos();
 
 setInterval(actualizarReloj, 1000);
 setInterval(cargarDatos, 5000);
+function obtenerTodosLosRiders(ciudades) {
+  return ciudades.flatMap(ciudad =>
+    (ciudad.riders || []).map(rider => ({
+      ...rider,
+      ciudad: ciudad.nombre
+    }))
+  );
+}
+
+function clasificarRider(rider) {
+  const status = String(rider.status || "").toLowerCase();
+
+  if (
+    !status ||
+    status === "not_checked_in" ||
+    status === "no_check_in" ||
+    status === "offline" ||
+    status === "inactive"
+  ) {
+    return "noCheckIn";
+  }
+
+  if (
+    status === "starting" ||
+    status === "checking_in" ||
+    status === "connecting"
+  ) {
+    return "empezando";
+  }
+
+  if (
+    status === "ending" ||
+    status === "finishing"
+  ) {
+    return "finalizando";
+  }
+
+  if (rider.descanso > 600) {
+    return "descanso";
+  }
+
+  if (rider.pedidos > 0) {
+    return "reparto";
+  }
+
+  if (status === "working") {
+    return "esperando";
+  }
+
+  return "esperando";
+}
+
 function pintarListaAlertas(ciudades) {
   const lista = document.getElementById("listaAlertas");
-  const alertas = ciudades.filter(c => c.alertas > 0);
+  const riders = obtenerTodosLosRiders(ciudades);
 
-  if (alertas.length === 0) {
-    lista.innerHTML = "<p>Sin alertas críticas.</p>";
-    return;
-  }
+  const grupos = {
+    noCheckIn: {
+      titulo: "🔴 NO CHECK-IN",
+      riders: []
+    },
+    empezando: {
+      titulo: "🟠 EMPEZANDO TURNO",
+      riders: []
+    },
+    finalizando: {
+      titulo: "🟡 FINALIZANDO TURNO",
+      riders: []
+    },
+    descanso: {
+      titulo: "🔵 EN DESCANSO",
+      riders: []
+    },
+    reparto: {
+      titulo: "🟢 EN REPARTO",
+      riders: []
+    },
+    esperando: {
+      titulo: "⚪ ESPERANDO PEDIDO",
+      riders: []
+    }
+  };
+
+  riders.forEach(rider => {
+    const categoria = clasificarRider(rider);
+    grupos[categoria].riders.push(rider);
+  });
 
   lista.innerHTML = "";
 
-  alertas.forEach(ciudad => {
-    const item = document.createElement("div");
-    item.className = "alert-item";
+  Object.values(grupos).forEach(grupo => {
+    if (grupo.riders.length === 0) return;
 
-    item.innerHTML = `
-      <strong>${ciudad.nombre.toUpperCase()}</strong>
-      <small>${ciudad.alertas} incidencia activa · revisar operación</small>
+    const bloque = document.createElement("div");
+    bloque.className = "alert-group";
+
+    bloque.innerHTML = `
+      <h4>${grupo.titulo} <span>${grupo.riders.length}</span></h4>
+      ${grupo.riders.map(rider => `
+        <div class="rider-row">
+          <strong>ID ${rider.id || "Sin ID"}</strong>
+          <span>${rider.nombre || "Rider"}</span>
+          <small>${rider.ciudad || "Sin ciudad"} · ${rider.status || "Sin estado"}</small>
+        </div>
+      `).join("")}
     `;
 
-    lista.appendChild(item);
+    lista.appendChild(bloque);
   });
+
+  if (lista.innerHTML.trim() === "") {
+    lista.innerHTML = "<p>Sin riders activos en este momento.</p>";
+  }
 }

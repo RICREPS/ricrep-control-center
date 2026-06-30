@@ -410,3 +410,46 @@ nav .active{
   color:#f87171;
   margin-bottom:6px;
 }
+.alert-group {
+  margin-bottom: 14px;
+  padding: 12px;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.12);
+}
+
+.alert-group h4 {
+  margin: 0 0 10px 0;
+  font-size: 13px;
+  letter-spacing: 0.5px;
+}
+
+.alert-group h4 span {
+  float: right;
+  opacity: 0.8;
+}
+
+.rider-row {
+  padding: 8px;
+  margin-bottom: 6px;
+  border-radius: 8px;
+  background: rgba(0,0,0,0.22);
+}
+
+.rider-row strong {
+  display: block;
+  font-size: 13px;
+}
+
+.rider-row span {
+  display: block;
+  font-size: 12px;
+  margin-top: 2px;
+}
+
+.rider-row small {
+  display: block;
+  font-size: 11px;
+  opacity: 0.7;
+  margin-top: 2px;
+}
