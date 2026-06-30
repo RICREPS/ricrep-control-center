@@ -60,6 +60,15 @@ function procesarCiudad(nombre, riders) {
     const lateSeconds = rider?.performance?.time_spent?.late_seconds || 0;
 const tienePedido = rider?.deliveries_info?.has_active_deliveries === true;
 
+const estaEmpezando =
+  status === "starting" ||
+  status === "checking_in" ||
+  status === "connecting";
+
+const estaFinalizando =
+  status === "ending" ||
+  status === "finishing";
+
 const esNoCheckIn =
   !status ||
   status === "not_checked_in" ||
@@ -73,8 +82,12 @@ if (tienePedido) {
   reparto++;
 } else if (status === "working") {
   esperando++;
-} else {
+} else if (estaEmpezando || estaFinalizando) {
+  esperando++;
+} else if (esNoCheckIn) {
   alertas++;
+} else {
+  esperando++;
 }
 
 if (estaEnDescanso) {
