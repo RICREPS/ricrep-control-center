@@ -13,9 +13,10 @@ async function cargarDatos() {
     const respuesta = await fetch("/api/status");
     const data = await respuesta.json();
 
-    pintarDashboard(data.ciudades);
-    revisarAlertas(data.ciudades);
-    actualizarUltimaConexion(data.actualizado);
+ pintarDashboard(data.ciudades);
+revisarAlertas(data.ciudades);
+pintarListaAlertas(data.ciudades);
+actualizarUltimaConexion(data.actualizado);
 
   } catch (error) {
     console.error("Error cargando datos:", error);
