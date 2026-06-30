@@ -92,14 +92,39 @@ function revisarAlertas(ciudades) {
         ciudadesYaAvisadas.push(ciudad.nombre);
 
         setTimeout(() => {
-          audio.currentTime = 0;
-          audio.play().catch(() => {});
+audio.currentTime = 0;
+audio.play().catch(() => {});
 
-          const voz = new SpeechSynthesisUtterance(`Alerta. ${ciudad.nombre}.`);
-          voz.lang = "es-ES";
-          voz.rate = 0.95;
-          voz.pitch = 1;
-          speechSynthesis.speak(voz);
+const tieneDescanso = (ciudad.riders || []).some(r => r.descanso > 600);
+
+const tieneNoCheckIn = (ciudad.riders || []).some(r => {
+  const status = String(r.status || "").toLowerCase();
+
+  return (
+    !status ||
+    status === "not_checked_in" ||
+    status === "no_check_in" ||
+    status === "offline" ||
+    status === "inactive"
+  );
+});
+
+let mensaje = `Alerta. ${ciudad.nombre}.`;
+
+if (tieneNoCheckIn && tieneDescanso) {
+  mensaje = `Alerta. ${ciudad.nombre}. No check-in y rider en descanso.`;
+} else if (tieneNoCheckIn) {
+  mensaje = `Alerta. ${ciudad.nombre}. No check-in.`;
+} else if (tieneDescanso) {
+  mensaje = `Alerta. ${ciudad.nombre}. Rider en descanso.`;
+}
+
+const voz = new SpeechSynthesisUtterance(mensaje);
+voz.lang = "es-ES";
+voz.rate = 0.95;
+voz.pitch = 1;
+
+speechSynthesis.speak(voz);
         }, index * 1500);
       }
     });
