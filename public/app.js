@@ -13,7 +13,7 @@ const centrosCiudad = {
   Barakaldo: [43.296, -2.987],
   Santander: [43.462, -3.809],
   Torrelavega: [43.349, -4.047],
-  "Costa de Eje": [43.300, -2.250]
+  "Costa de Eje": [28.0926, -16.7357]
 };
 
 const audio = new Audio("/alert.mp3");
