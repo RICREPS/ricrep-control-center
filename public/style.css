@@ -480,3 +480,23 @@ nav .active{
   overflow: hidden;
   border: 1px solid rgba(0, 210, 255, 0.3);
 }
+.map-controls {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+
+.map-controls button {
+  background: rgba(0, 210, 255, 0.12);
+  border: 1px solid rgba(0, 210, 255, 0.4);
+  color: white;
+  padding: 8px 12px;
+  border-radius: 999px;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.map-controls button:hover {
+  background: rgba(0, 210, 255, 0.28);
+}

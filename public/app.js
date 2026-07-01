@@ -8,6 +8,14 @@ let ciudadesYaAvisadas = [];
 let mapa;
 let marcadores = [];
 
+const centrosCiudad = {
+  Bilbao: [43.263, -2.935],
+  Barakaldo: [43.296, -2.987],
+  Santander: [43.462, -3.809],
+  Torrelavega: [43.349, -4.047],
+  "Costa de Eje": [43.300, -2.250]
+};
+
 const audio = new Audio("/alert.mp3");
 audio.loop = false;
 
@@ -399,5 +407,12 @@ function actualizarMapa(ciudades) {
     `);
 
     marcadores.push(marker);
+  });
+}function centrarCiudad(nombre) {
+  if (!mapa || !centrosCiudad[nombre]) return;
+
+  mapa.flyTo(centrosCiudad[nombre], 13, {
+    animate: true,
+    duration: 1
   });
 }
