@@ -499,4 +499,30 @@ nav .active{
 
 .map-controls button:hover {
   background: rgba(0, 210, 255, 0.28);
+}.map-section {
+  position: relative;
+  z-index: 2;
+}
+
+.map-controls {
+  position: relative;
+  z-index: 9999;
+  display: flex;
+  gap: 10px;
+  margin: 10px 0 14px;
+}
+
+.map-controls button {
+  background: #ffd400;
+  color: #111;
+  border: none;
+  padding: 10px 14px;
+  border-radius: 999px;
+  font-weight: 900;
+  cursor: pointer;
+  box-shadow: 0 0 14px rgba(255, 212, 0, 0.4);
+}
+
+.map-controls button:hover {
+  transform: scale(1.05);
 }

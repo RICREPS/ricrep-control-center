@@ -331,7 +331,10 @@ function actualizarMapa(ciudades) {
 
     marcadores.push(marker);
   });
-}function inicializarMapa() {
+
+  }
+
+function inicializarMapa() {
   if (!document.getElementById("map")) return;
 
   mapa = L.map("map").setView([43.263, -2.935], 8);
@@ -341,78 +344,11 @@ function actualizarMapa(ciudades) {
   }).addTo(mapa);
 }
 
-function actualizarMapa(ciudades) {
-  if (!mapa) return;
-
-  marcadores.forEach(marker => mapa.removeLayer(marker));
-  marcadores = [];
-
-  const riders = ciudades.flatMap(ciudad =>
-    (ciudad.riders || []).map(rider => ({
-      ...rider,
-      ciudad: ciudad.nombre
-    }))
-  );
-
-  riders.forEach(rider => {
-    if (!rider.lat || !rider.lng) return;
-
-    const marker = L.marker([rider.lat, rider.lng]).addTo(mapa);
-
-    marker.bindPopup(`
-      <strong>${rider.nombre || "Rider"}</strong><br>
-      ID: ${rider.id || "-"}<br>
-      Ciudad: ${rider.ciudad}<br>
-      Estado: ${rider.status || "-"}<br>
-      Vehículo: ${rider.vehicle || "-"}
-    `);
-
-    marcadores.push(marker);
-  });
-}function inicializarMapa() {
-  if (!document.getElementById("map")) return;
-
-  mapa = L.map("map").setView([43.263, -2.935], 8);
-
-  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-    attribution: "&copy; OpenStreetMap contributors"
-  }).addTo(mapa);
-}
-
-function actualizarMapa(ciudades) {
-  if (!mapa) return;
-
-  marcadores.forEach(marker => mapa.removeLayer(marker));
-  marcadores = [];
-
-  const riders = ciudades.flatMap(ciudad =>
-    (ciudad.riders || []).map(rider => ({
-      ...rider,
-      ciudad: ciudad.nombre
-    }))
-  );
-
-  riders.forEach(rider => {
-    if (!rider.lat || !rider.lng) return;
-
-    const marker = L.marker([rider.lat, rider.lng]).addTo(mapa);
-
-    marker.bindPopup(`
-      <strong>${rider.nombre || "Rider"}</strong><br>
-      ID: ${rider.id || "-"}<br>
-      Ciudad: ${rider.ciudad}<br>
-      Estado: ${rider.status || "-"}<br>
-      Vehículo: ${rider.vehiculo || "-"}<br>
-      Pedidos: ${rider.pedidos || 0}
-    `);
-
-    marcadores.push(marker);
-  });
-}function centrarCiudad(nombre) {
+window.centrarCiudad = function(nombre) {
   if (!mapa || !centrosCiudad[nombre]) return;
 
   mapa.flyTo(centrosCiudad[nombre], 13, {
     animate: true,
-    duration: 1
+    duration: 1.2
   });
-}
+};
