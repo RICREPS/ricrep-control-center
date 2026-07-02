@@ -200,16 +200,20 @@ function obtenerTodosLosRiders(ciudades) {
 function clasificarRider(rider) {
   const status = String(rider.status || "").toLowerCase();
 
-if (
-  status === "not_checked_in" ||
-  status === "no_check_in" ||
-  status === "late"
-) {
-  return "noCheckIn";
-}
+  if (
+    status === "not_checked_in" ||
+    status === "no_check_in" ||
+    status === "late"
+  ) {
+    return "noCheckIn";
+  }
 
-if (
-  status === "starting" ||
+  if (rider.descanso || status === "break" || status === "on_break") {
+    return "descanso";
+  }
+
+  if (
+    status === "starting" ||
     status === "checking_in" ||
     status === "connecting"
   ) {
@@ -223,19 +227,14 @@ if (
     return "finalizando";
   }
 
-  if (rider.descanso > 600) {
-    return "descanso";
-  }
-
-  if (rider.pedidos > 0) {
-    return "reparto";
-  }
-
-  if (status === "working") {
+  if (
+    status === "waiting" ||
+    status === "pending"
+  ) {
     return "esperando";
   }
 
-  return "esperando";
+  return "reparto";
 }
 
 function pintarListaAlertas(ciudades) {
