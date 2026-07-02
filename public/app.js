@@ -208,12 +208,8 @@ if (
   return "noCheckIn";
 }
 
-   {
-    return "noCheckIn";
-  }
-
-  if (
-    status === "starting" ||
+if (
+  status === "starting" ||
     status === "checking_in" ||
     status === "connecting"
   ) {
