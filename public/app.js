@@ -305,6 +305,35 @@ function pintarListaAlertas(ciudades) {
   }).addTo(mapa);
 }
 
+function crearIconoRider(rider) {
+  const status = String(rider.status || "").toLowerCase();
+
+  let clase = "marker-working";
+
+  if (rider.descanso || status === "break" || status === "on_break") {
+    clase = "marker-break";
+  } else if (
+    !status ||
+    status === "not_checked_in" ||
+    status === "no_check_in" ||
+    status === "offline" ||
+    status === "inactive"
+  ) {
+    clase = "marker-alert";
+  } else if (status === "waiting" || status === "pending") {
+    clase = "marker-waiting";
+  } else if (status === "ending") {
+    clase = "marker-ending";
+  }
+
+  return L.divIcon({
+    className: "",
+    html: `<div class="rider-marker ${clase}"></div>`,
+    iconSize: [18, 18],
+    iconAnchor: [9, 9]
+  });
+}
+
 function actualizarMapa(ciudades) {
   if (!mapa) return;
 
@@ -321,7 +350,9 @@ function actualizarMapa(ciudades) {
   riders.forEach(rider => {
     if (!rider.lat || !rider.lng) return;
 
-    const marker = L.marker([rider.lat, rider.lng]).addTo(mapa);
+const marker = L.marker([rider.lat, rider.lng], {
+  icon: crearIconoRider(rider)
+}).addTo(mapa);
 
     marker.bindPopup(`
       <strong>ID ${rider.id || "Sin ID"}</strong><br>
