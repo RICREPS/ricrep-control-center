@@ -44,9 +44,14 @@ function pintarDashboard(ciudades) {
   let totalAlertas = 0;
 
   ciudades.forEach(ciudad => {
-    totalReparto += ciudad.reparto;
-    totalEsperando += ciudad.esperando;
-    totalAlertas += ciudad.alertas;
+const ridersCiudad = ciudad.riders || [];
+const alertasCiudad = ridersCiudad.filter(r => clasificarRider(r) === "noCheckIn" || r.descanso).length;
+
+totalReparto += ciudad.reparto;
+totalEsperando += ciudad.esperando;
+totalAlertas += alertasCiudad;
+
+ciudad.alertas = alertasCiudad;
 
     const tieneAlerta = ciudad.alertas > 0;
 
