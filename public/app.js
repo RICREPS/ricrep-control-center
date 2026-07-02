@@ -114,8 +114,9 @@ setTimeout(() => {
             !status ||
             status === "not_checked_in" ||
             status === "no_check_in" ||
-            status === "offline" ||
-            status === "inactive"
+status === "offline" ||
+status === "inactive" ||
+status === "late"
         );
     });
 
@@ -198,8 +199,9 @@ function clasificarRider(rider) {
     !status ||
     status === "not_checked_in" ||
     status === "no_check_in" ||
-    status === "offline" ||
-    status === "inactive"
+status === "offline" ||
+status === "inactive" ||
+status === "late"
   ) {
     return "noCheckIn";
   }
@@ -316,8 +318,9 @@ function crearIconoRider(rider) {
     !status ||
     status === "not_checked_in" ||
     status === "no_check_in" ||
-    status === "offline" ||
-    status === "inactive"
+status === "offline" ||
+status === "inactive" ||
+status === "late"
   ) {
     clase = "marker-alert";
   } else if (status === "waiting" || status === "pending") {
