@@ -110,7 +110,7 @@ function revisarAlertas(ciudades) {
 
 setTimeout(() => {
 
-    const tieneDescanso = (ciudad.riders || []).some(r => r.descanso);
+const tieneDescanso = (ciudad.riders || []).some(r => Number(r.descanso || 0) >= 600);
 
     const tieneNoCheckIn = (ciudad.riders || []).some(r => {
         const status = String(r.status || "").toLowerCase();
@@ -320,7 +320,7 @@ function crearIconoRider(rider) {
 
   let clase = "marker-working";
 
-  if (rider.descanso || status === "break" || status === "on_break") {
+if (rider.descanso >= 600 || status === "break" || status === "on_break") {
     clase = "marker-break";
   } else if (
     !status ||
