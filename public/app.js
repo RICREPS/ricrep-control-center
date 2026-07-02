@@ -279,7 +279,14 @@ function pintarListaAlertas(ciudades) {
 
   lista.innerHTML = "";
 
-  Object.values(grupos).forEach(grupo => {
+[
+  grupos.noCheckIn,
+  grupos.descanso,
+  grupos.finalizando,
+  grupos.empezando,
+  grupos.esperando,
+  grupos.reparto
+].forEach(grupo => {
     if (grupo.riders.length === 0) return;
 
     const bloque = document.createElement("div");
