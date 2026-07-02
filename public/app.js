@@ -200,13 +200,13 @@ function obtenerTodosLosRiders(ciudades) {
 function clasificarRider(rider) {
   const status = String(rider.status || "").toLowerCase();
 
-  if (
-    !status ||
-    status === "not_checked_in" ||
-    status === "no_check_in" ||
-status === "offline" ||
-status === "inactive" ||
-status === "late"
+if (
+  status === "not_checked_in" ||
+  status === "no_check_in" ||
+  status === "late"
+) {
+  return "noCheckIn";
+}
   ) {
     return "noCheckIn";
   }
