@@ -614,3 +614,54 @@ body.vista-alertas #listaAlertas{
   max-height:70vh;
   overflow-y:auto;
 }
+
+/* ===========================
+   ICONOS DE RIDERS EN EL MAPA
+=========================== */
+
+.rider-marker{
+  width:18px;
+  height:18px;
+  border-radius:50%;
+  border:3px solid #ffffff;
+  box-shadow:0 0 12px rgba(255,255,255,.35);
+}
+
+.marker-working{
+  background:#22c55e;
+  box-shadow:0 0 18px rgba(34,197,94,.9);
+}
+
+.marker-waiting{
+  background:#facc15;
+  box-shadow:0 0 18px rgba(250,204,21,.9);
+}
+
+.marker-break{
+  background:#fb923c;
+  box-shadow:0 0 18px rgba(251,146,60,.95);
+  animation:pulseMarker 1.2s infinite;
+}
+
+.marker-alert{
+  background:#ef4444;
+  box-shadow:0 0 20px rgba(239,68,68,1);
+  animation:pulseMarker 0.8s infinite;
+}
+
+.marker-ending{
+  background:#3b82f6;
+  box-shadow:0 0 18px rgba(59,130,246,.95);
+}
+
+@keyframes pulseMarker{
+  0%{
+    transform:scale(1);
+  }
+  50%{
+    transform:scale(1.35);
+  }
+  100%{
+    transform:scale(1);
+  }
+}
