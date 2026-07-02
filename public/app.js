@@ -103,9 +103,27 @@ function revisarAlertas(ciudades) {
       if (!alarmaSilenciada && !ciudadesYaAvisadas.includes(ciudad.nombre)) {
         ciudadesYaAvisadas.push(ciudad.nombre);
 
-        setTimeout(() => {
-audio.currentTime = 0;
-audio.play().catch(() => {});
+setTimeout(() => {
+
+    const tieneDescanso = (ciudad.riders || []).some(r => r.descanso);
+
+    const tieneNoCheckIn = (ciudad.riders || []).some(r => {
+        const status = String(r.status || "").toLowerCase();
+
+        return (
+            !status ||
+            status === "not_checked_in" ||
+            status === "no_check_in" ||
+            status === "offline" ||
+            status === "inactive"
+        );
+    });
+
+    if (tieneDescanso || tieneNoCheckIn) {
+        audio.currentTime = 0;
+        audio.play().catch(() => {});
+    }
+
 
 const tieneDescanso = (ciudad.riders || []).some(r => r.descanso > 600);
 
