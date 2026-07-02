@@ -352,3 +352,22 @@ window.centrarCiudad = function(nombre) {
     duration: 1.2
   });
 };
+function cambiarVista(vista) {
+  document.body.classList.remove("vista-dashboard", "vista-mapa", "vista-alertas");
+  document.body.classList.add(`vista-${vista}`);
+
+  document.querySelectorAll(".view-tab").forEach((btn) => {
+    btn.classList.remove("active");
+  });
+
+  const botonActivo = document.querySelector(`.view-tab[onclick="cambiarVista('${vista}')"]`);
+  if (botonActivo) botonActivo.classList.add("active");
+
+  setTimeout(() => {
+    if (typeof mapa !== "undefined" && mapa) {
+      mapa.invalidateSize();
+    }
+  }, 300);
+}
+
+window.cambiarVista = cambiarVista;

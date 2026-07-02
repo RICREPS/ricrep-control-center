@@ -519,3 +519,70 @@ nav .active{
 .map-controls button:hover {
   transform: scale(1.05);
 }
+.view-tabs{
+    display:flex;
+    gap:12px;
+    margin:0 0 18px;
+    padding:10px;
+    border-radius:18px;
+    background:rgba(2,10,24,.7);
+    border:1px solid rgba(0,229,255,.22);
+}
+
+.view-tab{
+    border:0;
+    padding:12px 20px;
+    border-radius:14px;
+    background:rgba(15,23,42,.9);
+    color:#cbd5e1;
+    font-weight:900;
+    cursor:pointer;
+}
+
+.view-tab.active{
+    background:linear-gradient(135deg,#fde047,#f59e0b);
+    color:#111827;
+    box-shadow:0 0 22px rgba(250,204,21,.35);
+}
+
+/* ==========================
+   VISTAS DEL DASHBOARD
+========================== */
+
+body.vista-dashboard #mapa-section{
+    display:block;
+}
+
+body.vista-dashboard .workspace{
+    display:grid;
+}
+
+body.vista-alertas #mapa-section{
+    display:none;
+}
+
+body.vista-alertas .workspace{
+    display:grid;
+}
+
+body.vista-alertas .city-grid{
+    display:none;
+}
+
+body.vista-alertas .right-panel{
+    width:100%;
+    max-width:none;
+}
+
+body.vista-mapa .workspace{
+    display:none;
+}
+
+body.vista-mapa #mapa-section{
+    display:block;
+    margin-top:15px;
+}
+
+body.vista-mapa #map{
+    height:78vh;
+}
