@@ -549,40 +549,68 @@ nav .active{
    VISTAS DEL DASHBOARD
 ========================== */
 
+html,
+body{
+  height:100%;
+  overflow:hidden;
+}
+
+.main{
+  height:100vh;
+  overflow-y:auto;
+  padding-bottom:40px;
+}
+
+/* Dashboard: sin mapa */
 body.vista-dashboard #mapa-section{
-    display:block;
+  display:none;
 }
 
 body.vista-dashboard .workspace{
-    display:grid;
+  display:grid;
 }
 
-body.vista-alertas #mapa-section{
-    display:none;
+body.vista-dashboard .kpis{
+  display:grid;
 }
 
-body.vista-alertas .workspace{
-    display:grid;
-}
-
-body.vista-alertas .city-grid{
-    display:none;
-}
-
-body.vista-alertas .right-panel{
-    width:100%;
-    max-width:none;
-}
-
-body.vista-mapa .workspace{
-    display:none;
+/* Mapa: solo mapa */
+body.vista-mapa .kpis,
+body.vista-mapa .workspace,
+body.vista-mapa #bannerAlerta{
+  display:none;
 }
 
 body.vista-mapa #mapa-section{
-    display:block;
-    margin-top:15px;
+  display:block;
+  margin-top:20px;
+  height:calc(100vh - 170px);
 }
 
 body.vista-mapa #map{
-    height:78vh;
+  height:100%;
+  min-height:620px;
+}
+
+/* Alertas: solo incidencias */
+body.vista-alertas .kpis,
+body.vista-alertas .city-grid,
+body.vista-alertas #mapa-section{
+  display:none;
+}
+
+body.vista-alertas .workspace{
+  display:block;
+}
+
+body.vista-alertas .right-panel{
+  width:100%;
+  max-width:none;
+  min-height:70vh;
+  padding:28px;
+}
+
+body.vista-alertas #listaAlertas{
+  max-height:70vh;
+  overflow-y:auto;
 }
