@@ -124,21 +124,6 @@ setTimeout(() => {
         audio.play().catch(() => {});
     }
 
-
-const tieneDescanso = (ciudad.riders || []).some(r => r.descanso > 600);
-
-const tieneNoCheckIn = (ciudad.riders || []).some(r => {
-  const status = String(r.status || "").toLowerCase();
-
-  return (
-    !status ||
-    status === "not_checked_in" ||
-    status === "no_check_in" ||
-    status === "offline" ||
-    status === "inactive"
-  );
-});
-
 let mensaje = `Alerta. ${ciudad.nombre}.`;
 
 if (tieneNoCheckIn && tieneDescanso) {
